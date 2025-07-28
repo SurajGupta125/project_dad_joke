@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 400px;
+        margin-bottom: 1rem;
+    }
+
+    .api-body {
+        font-size: 1.2rem;
+        margin: 20px 0;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+
+
+<body>
+    <div class="container">
+        <h1>Dad Joke</h1>
+        <p class="api-body"></p>
+    </div>
+    <button class="btn">Click</button>
+
+    <script>
+        let apiBody = document.querySelector(".api-body")
+        let ourApi = "https://icanhazdadjoke.com/";
+
+        let dadJokes = (() => {
+            fetch(ourApi, {
+                headers: {
+                    Accept: "application/json"
+                }
+            })
+                .then((res) => {
+                    console.log(res)
+                    return res.json()
+                })
+                .then((data) => {
+                    console.log(data)
+                    apiBody.innerHTML = data.joke
+                })
+                .catch((err) => {
+                    console.error("Error:", err);
+                    apiBody.innerHTML = "Failed to fetch joke 😢";
+                })
+
+        })
+        window.addEventListener('DomContentLoader', dadJokes())
+        document.querySelector(".btn").addEventListener('click', dadJokes)
+    </script>
+</body>
+
+</html>
